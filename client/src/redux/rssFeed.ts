@@ -1,9 +1,14 @@
 /* eslint-disable no-console */
 /* eslint-disable no-param-reassign */
-import { takeEvery, put, call, delay, select } from "redux-saga/effects";
+import { takeEvery, put, call, delay } from "redux-saga/effects";
 import { SagaIterator } from "redux-saga";
 import produce from "immer";
-import { transport } from "../lib/transport";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import RSSParser from "rss-parser";
+
+const parser = new RSSParser();
+
+const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
 
 // types
 export const GET_FEED = {
@@ -45,7 +50,7 @@ export const getFeedError = (error: string): GetFeedError => ({
 
 // reducer
 interface FeedStatus {
-  feedResult: any | null;
+  feedResult: RSSParser.Output | null;
   request: {
     processing: boolean;
     success: boolean;
@@ -88,14 +93,14 @@ export function rssFeedReducer(state = initialState, action: any): FeedStatus {
 }
 
 // saga
-
 function* feedApiSaga(action: any): any {
   const { url } = action;
 
   try {
-    const response: any = yield call(transport, {
-      url,
-    });
+    const response = yield call(
+      [parser, parser.parseURL],
+      process.env.NODE_ENV !== "production" ? `${CORS_PROXY}${url}` : url
+    );
     yield delay(500); // simulate longer request
     yield put(getFeedSuccess(response));
   } catch (error) {

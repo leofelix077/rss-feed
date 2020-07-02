@@ -1,5 +1,5 @@
 import Home from "./components/Home";
-import RSSFeed from "./components/RSSFeed";
+import RSSFeedContainer from "./components/RSSFeedContainer";
 
 export interface RouteConfig {
   public: boolean;
@@ -29,7 +29,7 @@ const ROUTES: Routes = {
     key: "home",
   },
   rssFeed: {
-    component: RSSFeed,
+    component: RSSFeedContainer,
     path: "/rss",
     public: true,
     label: "RSS Feed",

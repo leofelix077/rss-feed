@@ -18,7 +18,7 @@ export default {
     feed: "RSS Feed",
     "not-found": "Page Not Found ",
   },
-  place: {
+  feed: {
     send: "Send",
   },
 };

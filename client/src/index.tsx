@@ -1,3 +1,5 @@
+/* eslint-disable func-names */
+/* eslint-disable no-extend-native */
 import "moment/locale/pt-br";
 import "moment/locale/en-gb";
 import App from "./components/App";
@@ -18,6 +20,51 @@ import store from "./store";
 import rootSaga from "./redux/rootSaga";
 import { ConnectedRouter, routerMiddleware } from "connected-react-router";
 import { createBrowserHistory } from "history";
+
+if (!Array.prototype.map) {
+  Array.prototype.map = function (callback) {
+    if (!this?.length) {
+      throw new Error("Cannot read property of null or undefined");
+    }
+    const res = [];
+    for (let i = 0; i < this.length; i++) {
+      res.push(callback(this[i], i, this));
+    }
+    return res;
+  };
+}
+
+if (!Array.prototype.reduce) {
+  Object.defineProperty(Array.prototype, "reduce", {
+    value(callback: any, initial: any) {
+      let initialValue = initial || null;
+      if (!this?.length) {
+        throw new Error("Cannot read property of null or undefined");
+      }
+      for (let i = 0; i < this.length; i++) {
+        const element = this[i];
+        initialValue = callback(initialValue, element, this, i);
+      }
+      return initialValue;
+    },
+  });
+}
+
+if (!Array.prototype.filter) {
+  Array.prototype.filter = function (callback: any): any[] {
+    if (!this?.length) {
+      throw new Error("Cannot read property of null or undefined");
+    }
+    const res: any[] = [];
+    for (let i = 0; i < this.length; i++) {
+      const value = callback(this[i], i, this);
+      if (value) {
+        res.push(value);
+      }
+    }
+    return res;
+  };
+}
 
 const theme = createMuiTheme({
   palette: {
