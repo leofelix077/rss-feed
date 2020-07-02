@@ -1,35 +1,24 @@
 export default {
   home: {
-    title: "Weather App",
+    title: "RSS Feed App",
   },
   languages: {
     header: "Language",
     "pt-br": "Portuguese",
     "en-gb": "English",
   },
-  temperature: {
-    header: "Temperature",
-  },
+
   errors: {
     network: "Oh No! An error occurred. Plese try again",
     "temperature-unsupported": "Unsupported Temperature",
     "place-not-found": "Place not found :(",
   },
-  general: {
-    loading: "Loading...",
-  },
-  weather: {
-    feelsLike: "Feels Like",
-    humidity: "Humidity",
-    pressure: "Pressure",
-    graphLabel: "Forecast",
-  },
   routes: {
     home: "Home",
-    weather: "Weather",
+    feed: "RSS Feed",
+    "not-found": "Page Not Found ",
   },
   place: {
-    place: "Place",
     send: "Send",
   },
 };

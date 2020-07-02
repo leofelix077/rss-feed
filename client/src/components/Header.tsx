@@ -15,7 +15,6 @@ import ROUTES, { Routes, RouteConfig } from "../routes";
 import { NavLink } from "react-router-dom";
 import { ListItemIcon, Typography, Hidden } from "@material-ui/core";
 import LocaleSelector from "./LocaleSelector";
-import TemperatureSelector from "./TemperatureSelector";
 import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
@@ -108,7 +107,7 @@ const MenuAppBar: React.FC = (): ReturnType<React.FC> => {
       strict: true,
     })
   ) {
-    return <Redirect to="/weather" />;
+    return <Redirect to="/rss" />;
   }
 
   const drawRoutes = (routes: Routes, padding: number): any => (
@@ -193,14 +192,13 @@ const MenuAppBar: React.FC = (): ReturnType<React.FC> => {
                 </div>
                 <Hidden xsDown>
                   <div className={classes.appTitle}>
-                    <Typography>WeatherApp</Typography>
+                    <Typography>RSSFeedApp</Typography>
                   </div>
                 </Hidden>
               </Grid>
 
               <Grid item sm={6} xs={10} className={classes.selectorsContainer}>
                 <LocaleSelector />
-                <TemperatureSelector />
               </Grid>
             </Grid>
           </Toolbar>
@@ -240,7 +238,7 @@ const MenuAppBar: React.FC = (): ReturnType<React.FC> => {
             }
             return null; // sub routes controlled at component level
           })}
-          <Route component={() => <div>Page not found</div>} />
+          <Route component={() => <div>{t("not-found")}</div>} />
         </Switch>
       </div>
     </>
