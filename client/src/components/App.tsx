@@ -3,14 +3,7 @@ import { makeStyles } from "@material-ui/core";
 import Header from "./Header";
 import { useDispatch } from "react-redux";
 import { requestLocaleChange } from "../redux/localeDetector";
-import {
-  SupportedLocale,
-  LOCALE_KEY,
-  TEMPERATURE_KEY,
-  SupportedTemperature,
-} from "../constants";
-import { requestTemperatureChange } from "../redux/temperatureSelector";
-import moment from "moment";
+import { SupportedLocale, LOCALE_KEY } from "../constants";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -24,30 +17,12 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-moment.updateLocale(SupportedLocale.English, {
-  longDateFormat: {
-    L: "MM/DD/YY",
-  },
-} as any);
-moment.updateLocale(SupportedLocale.Portuguese, {
-  longDateFormat: {
-    L: "DD/MM/YY",
-  },
-} as any);
-
 const App: React.FC = (): ReturnType<React.FC> => {
   const dispatch = useDispatch();
   const preferredLocale = localStorage.getItem(LOCALE_KEY);
-  const preferredTemperature = localStorage.getItem(TEMPERATURE_KEY);
 
   if (preferredLocale) {
     dispatch(requestLocaleChange(preferredLocale as SupportedLocale));
-  }
-
-  if (preferredTemperature) {
-    dispatch(
-      requestTemperatureChange(preferredTemperature as SupportedTemperature)
-    );
   }
 
   const classes = useStyles();

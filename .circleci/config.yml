@@ -9,13 +9,13 @@ jobs:
       - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
       - restore_cache:
           keys:
-            - v2-deps-weather-app-web-{{ checksum "client/package.json" }}
-            - v2-deps-weather-app-web-
+            - v2-deps-rss-app-web-{{ checksum "client/package.json" }}
+            - v2-deps-rss-app-web-
       - run: cd client && yarn install
       - save_cache:
           paths:
             - client/node_modules
-          key: v2-deps-weather-app-web-{{ checksum "client/package.json" }}
+          key: v2-deps-rss-app-web-{{ checksum "client/package.json" }}
       - run: |
           if [ ! -z "$CIRCLE_PULL_REQUEST" ] || [ "$CIRCLE_BRANCH" == "develop" ] || [ "$CIRCLE_BRANCH" == "master" ] ; then
             cd client && yarn test
@@ -41,7 +41,7 @@ jobs:
           at: ~/repo
       - run:
           name: Deploy to S3 dev bucket
-          command: aws s3 sync client/build s3://weather.bunchofnothing.com --delete --exact-timestamps
+          command: aws s3 sync client/build s3://rss.bunchofnothing.com --delete --exact-timestamps
 
   deploy-client-dev:
     docker:
@@ -54,7 +54,7 @@ jobs:
           at: ~/repo
       - run:
           name: Deploy to S3 dev bucket
-          command: aws s3 sync client/build s3://weather-dev.bunchofnothing.com --delete --exact-timestamps
+          command: aws s3 sync client/build s3://rss-dev.bunchofnothing.com --delete --exact-timestamps
 
 workflows:
   version: 2

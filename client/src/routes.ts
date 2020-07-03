@@ -1,5 +1,5 @@
 import Home from "./components/Home";
-import WeatherContainer from "./components/WeatherContainer";
+import RSSFeedContainer from "./components/RSSFeedContainer";
 
 export interface RouteConfig {
   public: boolean;
@@ -28,13 +28,13 @@ const ROUTES: Routes = {
     translate: "home",
     key: "home",
   },
-  weather: {
-    component: WeatherContainer,
-    path: "/weather",
+  rssFeed: {
+    component: RSSFeedContainer,
+    path: "/rss",
     public: true,
-    label: "Weather",
-    translate: "weather",
-    key: "weather",
+    label: "RSS Feed",
+    translate: "feed",
+    key: "feed",
   },
 };
 
