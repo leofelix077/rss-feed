@@ -9,7 +9,8 @@ export default {
   },
 
   errors: {
-    network: "Oh No! An error occurred. Plese try again",
+    generic:
+      "Oh No! An error occurred. Make sure you have active internet connection and a valid RSS Feed URL",
   },
   routes: {
     home: "Home",

@@ -8,7 +8,8 @@ export default {
     "en-gb": "Inglês",
   },
   errors: {
-    generic: "Oops. Um erro ocorreu. Por favor tente novamente",
+    generic:
+      "Oops. Um erro ocorreu. Certifique-se que você tem conexão ativa e uma URL válida para RSS Feed",
   },
   general: {
     loading: "Carregando...",
