@@ -19,7 +19,5 @@
       "pre-commit": "lint-staged"
     }
   },
-  "dependencies": {
-    "rss-parser": "^3.8.0"
-  }
+  "dependencies": {}
 }
