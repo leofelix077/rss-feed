@@ -58,7 +58,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "build:ci": "CI=false SKIP_PREFLIGHT_CHECK=true react-scripts --max_old_space_size=4096 build",
-    "test": "jest",
+    "test": "TZ=Europe/Berlin jest",
     "test:watch": "jest --watch",
     "eject": "react-scripts eject",
     "copy-s3-dev": "aws s3 sync build/ s3://dev.bunchofnothing.com --delete --exact-timestamps",

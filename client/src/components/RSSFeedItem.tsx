@@ -39,7 +39,7 @@ const RSSFeedItem: React.FC<RSSFeedItemProps> = ({
       {item.categories && <Grid item>{item.categories.join(", ")}</Grid>}
       {item.isoDate && (
         <Typography className={classes.date}>
-          {moment(item.isoDate).utc().format("LLLL")}
+          {moment(item.isoDate).format("LLLL")}
         </Typography>
       )}
     </Grid>
