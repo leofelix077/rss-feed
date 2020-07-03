@@ -1,215 +1,112 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Parser from "rss-parser";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/rootReducer";
-import {
-  TableHead,
-  TableRow,
-  makeStyles,
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TablePagination,
-} from "@material-ui/core";
-import CustomTableHeadCell from "./CustomTableHeadCell";
-import { push } from "connected-react-router";
-import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
+import { makeStyles, Grid, Button, Select, MenuItem } from "@material-ui/core";
+import PropTypes from "prop-types";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Parser as HtmlToReactParser } from "html-to-react";
+import RSSFeedItem from "./RSSFeedItem";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+
+const htmlToReactParser = new HtmlToReactParser();
 
 interface RSSFeedProps {
-  data: Parser.Output;
+  data: Parser.Item[];
 }
 
 const useStyles = makeStyles((theme) => ({
-  ordersWrapper: {
-    position: "relative",
-  },
-  ordersContainer: {
+  root: {
     display: "flex",
-    flexDirection: "column",
-    padding: "2rem",
-    height: "calc(100vh - 4rem)",
-    backgroundColor: "#f6f6f6",
-    overflowY: "auto",
+    padding: theme.spacing(2),
+    flexDirection: "row",
   },
-  searchContainer: {
-    padding: "1rem",
+  icon: {
+    color: theme.palette.primary.main,
+    fontSize: 32,
   },
-  resultsContainer: {
-    padding: "1rem",
+  selectRoot: {
+    backgroundColor: "#333333",
+    borderRadius: "3px",
+    borderColor: theme.palette.primary.dark,
   },
-  sumTotalCell: {
-    display: "flex",
-    alignItems: "center",
+  selectMenu: {
+    color: "#8D8D8D",
+    backgroundColor: "3E3E3E",
+    padding: theme.spacing(1),
   },
-  hover: {
-    color: "white",
-    fontWeight: 600,
-  },
-  rowSpanningCell: {
-    textAlign: "center",
-  },
-  noResultsMessage: {
-    color: "#aaaaaa",
-  },
-  errorMessage: {
-    color: "#aaaaaa",
-  },
-  ordersTableRow: {
-    cursor: "pointer",
-  },
-  statisticContainer: {
-    padding: "1rem",
-  },
-  progress: {
-    flexGrow: 1,
-  },
-  statisticError: {
-    height: "5rem",
-    fontSize: "3rem",
-    alignContent: "center",
-  },
-  head: {
-    backgroundColor: "#424242",
-    color: "white",
-    fontSize: "1em",
+  empty: {
+    width: 64,
+    height: 1,
   },
 }));
 
-const RSSFeed: React.FC<RSSFeedProps> = (): ReturnType<
-  React.FC<RSSFeedProps>
-> => {
-  const data = useSelector((state: RootState) => state.rssFeed.feedResult);
+const RSSFeed: React.FC<RSSFeedProps> = ({
+  data,
+}): ReturnType<React.FC<RSSFeedProps>> => {
   const classes = useStyles();
-
   const [offset, setOffset] = useState(0);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(5);
 
-  const orderBy: any = (): any => "";
-  const direction: any = (): any => "";
-  const handleRequestSort: any = (): any => "";
+  const [formattedData, setFormattedData] = useState(
+    data.slice(offset, offset + limit).map((item) => ({
+      ...item,
+      content: htmlToReactParser.parse(item.content),
+    }))
+  );
 
-  const handleChangePage = (_: any, page: any): any => "";
+  useEffect(() => {
+    setFormattedData(
+      data.slice(offset, offset + limit).map((item) => ({
+        ...item,
+        content: htmlToReactParser.parse(item.content),
+      }))
+    );
+  }, [limit, offset, data]);
 
   return (
-    <Table>
-      <colgroup>
-        <col style={{ width: "15%" }} />
-        <col style={{ width: "20%" }} />
-        <col style={{ width: "20%" }} />
-        <col style={{ width: "5%" }} />
-        <col style={{ width: "5%" }} />
-        <col style={{ width: "15%" }} />
-        <col style={{ width: "10%" }} />
-        <col style={{ width: "5%" }} />
-        <col style={{ width: "5%" }} />
-      </colgroup>
-      <TableHead>
-        <TableRow classes={{ hover: classes.hover }}>
-          <CustomTableHeadCell
-            id="name"
-            label="Name"
-            orderBy={orderBy}
-            direction={direction}
-            onRequestSort={handleRequestSort}
-          />
-          <CustomTableHeadCell
-            id="email"
-            label="Email"
-            orderBy={orderBy}
-            direction={direction}
-            onRequestSort={handleRequestSort}
-          />
-          <CustomTableHeadCell
-            id="venue"
-            label="Venue"
-            orderBy={orderBy}
-            direction={direction}
-            onRequestSort={handleRequestSort}
-          />
-          <CustomTableHeadCell
-            id="orderNumber"
-            label="Order Number"
-            orderBy={orderBy}
-            direction={direction}
-            onRequestSort={handleRequestSort}
-          />
-          <CustomTableHeadCell
-            id="orderLocation"
-            label="Location"
-            orderBy={orderBy}
-            direction={direction}
-            onRequestSort={handleRequestSort}
-          />
-          <CustomTableHeadCell
-            id="total"
-            label="Total – Payment Method"
-            orderBy={orderBy}
-            direction={direction}
-            onRequestSort={handleRequestSort}
-          />
-          <CustomTableHeadCell
-            id="time"
-            label="Time"
-            orderBy={orderBy}
-            direction={direction}
-            onRequestSort={handleRequestSort}
-          />
-          <CustomTableHeadCell
-            id="userRating"
-            label="User Rating"
-            orderBy={orderBy}
-            direction={direction}
-            onRequestSort={handleRequestSort}
-          />
-          <TableCell
-            classes={{
-              head: classes.head,
-            }}
-          />
-        </TableRow>
-      </TableHead>
-      <>
-        <TableBody>
-          {data?.map((item: any) => (
-            <TableRow
-              key="abcd"
-              onClick={() => push(`something`)}
-              className={classes.ordersTableRow}
-            >
-              <TableCell>something</TableCell>
-              <TableCell>something2</TableCell>
-              <TableCell>something3</TableCell>
-              <TableCell>something4</TableCell>
-              <TableCell>something5</TableCell>
-              <TableCell>somethign6</TableCell>
-              <TableCell>something7</TableCell>
-              <TableCell>something8</TableCell>
-              <TableCell>something9</TableCell>
-            </TableRow>
+    <Grid container item className={classes.root}>
+      <Grid item container justify="space-between">
+        {offset ? (
+          <Button onClick={() => setOffset(Math.max(offset - limit, 0))}>
+            <ChevronLeftIcon className={classes.icon} />
+          </Button>
+        ) : (
+          <Grid className={classes.empty} />
+        )}
+        <Select
+          labelId="paging-selector"
+          id="paging-selector"
+          value={limit}
+          onChange={(event) => setLimit(event.target.value as number)}
+          classes={{
+            select: classes.selectRoot,
+            selectMenu: classes.selectMenu,
+          }}
+        >
+          {[5, 10, 20].map((value) => (
+            <MenuItem key={value} value={value}>
+              {value}
+            </MenuItem>
           ))}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[10, 25, 50]}
-              colSpan={8}
-              count={data?.length}
-              rowsPerPage={limit}
-              page={offset / limit}
-              SelectProps={{
-                native: true,
-              }}
-              onChangePage={handleChangePage}
-              onChangeRowsPerPage={() => setLimit(25)}
-              ActionsComponent={TablePaginationActions}
-            />
-          </TableRow>
-        </TableFooter>
-      </>
-    </Table>
+        </Select>
+        {offset + limit < data.length ? (
+          <Button onClick={() => setOffset(offset + limit)}>
+            <ChevronRightIcon className={classes.icon} />
+          </Button>
+        ) : (
+          <Grid className={classes.empty} />
+        )}
+      </Grid>
+      {formattedData.map((item) => (
+        <RSSFeedItem item={item} key={item.guid} />
+      ))}
+    </Grid>
   );
+};
+
+RSSFeed.propTypes = {
+  data: PropTypes.array.isRequired,
 };
 
 export default RSSFeed;

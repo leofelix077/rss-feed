@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/rootReducer";
 import { Loading } from "./Loading";
-import { makeStyles, Grid } from "@material-ui/core";
+import { makeStyles, Grid, Typography } from "@material-ui/core";
 import { Error } from "./Error";
 import { SearchBar } from "./SearchBar";
 import RSSFeed from "./RSSFeed";
@@ -10,38 +10,16 @@ import RSSFeed from "./RSSFeed";
 const useStyles = makeStyles((theme) => ({
   container: {
     color: "white",
-    fontSize: "6vw",
+    fontSize: 12,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-  },
-  iconContainer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  icon: {
-    fontSize: "10vw",
-    color: "#3C3C3C",
   },
   currentTime: {
     fontSize: 16,
     padding: theme.spacing(2),
     paddingBottom: theme.spacing(0),
     paddingTop: theme.spacing(1),
-  },
-  weatherBlockContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    display: "flex",
-  },
-  weatherBlockContainerHidden: {
-    display: "none",
-  },
-  header: {
-    flexDirection: "row",
-    display: "flex",
-    justifyContent: "space-between",
   },
   loadingOverlay: {
     position: "absolute",
@@ -99,10 +77,9 @@ const RSSFeedContainer: React.FC = (): ReturnType<React.FC> => {
         <>
           <SearchBar />
           <div className={classes.container}>
-            <Grid container>
-              <Grid item container xs={10}>
-                <RSSFeed data={rssFeedData.items} />
-              </Grid>
+            <Grid item container xs={12} justify="center">
+              <Typography>RSS Feed</Typography>
+              <RSSFeed data={rssFeedData.items} />
             </Grid>
           </div>
         </>

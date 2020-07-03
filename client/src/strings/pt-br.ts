@@ -8,17 +8,15 @@ export default {
     "en-gb": "Inglês",
   },
   errors: {
-    network: "Oops. Um erro ocorreu. Por favor tente novamente",
-    "place-not-found": "Local não encontrado :(",
+    generic: "Oops. Um erro ocorreu. Por favor tente novamente",
   },
   general: {
     loading: "Carregando...",
   },
-
   routes: {
     home: "Principal",
     feed: "RSS Feed",
-    "not-found": "Page Not Found ",
+    "not-found": "Página não encontrada",
   },
   feed: {
     send: "Enviar",

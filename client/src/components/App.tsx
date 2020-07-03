@@ -4,7 +4,6 @@ import Header from "./Header";
 import { useDispatch } from "react-redux";
 import { requestLocaleChange } from "../redux/localeDetector";
 import { SupportedLocale, LOCALE_KEY } from "../constants";
-import moment from "moment";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -17,17 +16,6 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "#111",
   },
 }));
-
-moment.updateLocale(SupportedLocale.English, {
-  longDateFormat: {
-    L: "MM/DD/YY",
-  },
-} as any);
-moment.updateLocale(SupportedLocale.Portuguese, {
-  longDateFormat: {
-    L: "DD/MM/YY",
-  },
-} as any);
 
 const App: React.FC = (): ReturnType<React.FC> => {
   const dispatch = useDispatch();

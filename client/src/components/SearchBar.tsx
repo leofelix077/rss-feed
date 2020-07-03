@@ -1,8 +1,9 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent } from "react";
 import { TextField, makeStyles, Button } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
-import { getFeedRequest } from "../redux/rssFeed";
+import { useDispatch, useSelector } from "react-redux";
+import { getFeedRequest, setUrl } from "../redux/rssFeed";
+import { RootState } from "../redux/rootReducer";
 
 const useStyles = makeStyles((theme) => ({
   searchField: {
@@ -11,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   searchFieldContainer: {
     padding: theme.spacing(2),
     display: "flex",
-    alignItems: "row",
+    alignItems: "center",
     justifyContent: "space-around",
   },
   textFieldRoot: {
@@ -25,10 +26,13 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonRoot: {
     height: 28,
+    color: theme.palette.primary.main,
+    borderColor: theme.palette.primary.main,
   },
   form: {
     display: "flex",
     flexDirection: "row",
+    alignItems: "center",
   },
 }));
 
@@ -37,13 +41,13 @@ export const SearchBar: React.FC = (): ReturnType<React.FC> => {
 
   const dispatch = useDispatch();
 
-  const [url, setUrl] = useState("");
+  const url = useSelector((state: RootState) => state.rssFeed.url);
 
   const { t } = useTranslation("feed");
 
   const handlePlaceChange = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    dispatch(getFeedRequest(url));
+    dispatch(getFeedRequest());
   };
 
   return (
@@ -63,12 +67,12 @@ export const SearchBar: React.FC = (): ReturnType<React.FC> => {
           classes={{
             root: classes.textFieldRoot,
           }}
-          onChange={(event) => setUrl(event.target.value)}
+          onChange={(event) => dispatch(setUrl(event.target.value))}
           value={url}
         />
         <div className={classes.buttonContainer}>
           <Button
-            variant="contained"
+            variant="outlined"
             type="submit"
             classes={{
               root: classes.buttonRoot,
