@@ -12,10 +12,7 @@ import { reducer, initialState } from "./redux/rootReducer";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { I18nextProvider } from "react-i18next";
 import i18next from "./lib/i18next";
-import { MuiPickersUtilsProvider } from "material-ui-pickers";
-import MomentUtils from "@date-io/moment";
 import createSagaMiddleware from "redux-saga";
-import moment from "moment";
 import store from "./store";
 import rootSaga from "./redux/rootSaga";
 import { ConnectedRouter, routerMiddleware } from "connected-react-router";
@@ -23,7 +20,7 @@ import { createBrowserHistory } from "history";
 
 if (!Array.prototype.map) {
   Array.prototype.map = function (callback) {
-    if (!this?.length) {
+    if (!this) {
       throw new Error("Cannot read property of null or undefined");
     }
     const res = [];
@@ -38,7 +35,7 @@ if (!Array.prototype.reduce) {
   Object.defineProperty(Array.prototype, "reduce", {
     value(callback: any, initial: any) {
       let initialValue = initial || null;
-      if (!this?.length) {
+      if (!this) {
         throw new Error("Cannot read property of null or undefined");
       }
       for (let i = 0; i < this.length; i++) {
@@ -52,7 +49,7 @@ if (!Array.prototype.reduce) {
 
 if (!Array.prototype.filter) {
   Array.prototype.filter = function (callback: any): any[] {
-    if (!this?.length) {
+    if (!this) {
       throw new Error("Cannot read property of null or undefined");
     }
     const res: any[] = [];
@@ -122,9 +119,7 @@ ReactDOM.render(
     <MuiThemeProvider theme={theme}>
       <ReduxStoreProvider store={store.get()}>
         <ConnectedRouter history={history}>
-          <MuiPickersUtilsProvider utils={MomentUtils} moment={moment}>
-            <App />
-          </MuiPickersUtilsProvider>
+          <App />
         </ConnectedRouter>
       </ReduxStoreProvider>
     </MuiThemeProvider>

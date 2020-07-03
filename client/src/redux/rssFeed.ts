@@ -117,7 +117,7 @@ function* feedApiSaga(): any {
   try {
     const response = yield call(
       [parser, parser.parseURL],
-      process.env.NODE_ENV !== "production" ? `${CORS_PROXY}${url}` : url
+      `${CORS_PROXY}${url}`
     );
     yield delay(500); // simulate longer request
     yield put(getFeedSuccess(response));
